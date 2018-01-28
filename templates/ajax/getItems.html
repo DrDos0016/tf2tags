@@ -1,0 +1,13 @@
+{% for item in items %}
+    <div class="item" itemID="{{item.id}}" itemName="{{item.name}}" paintable="{{item.paintable}}"><img src="{{item.url}}"><br>{{item.name}}<br>{{item.capabilities.paintable}}</div>
+    {% empty %}
+        <div class="tf2" style="text-align:center;color:#FFD700;font-size:24px;">No items found!</div>
+{% endfor %}
+
+<script>
+$(document).ready(function() {
+    $('.item').click(function() {
+        chooseItem($(this).attr('itemID'), $(this).attr('itemName'), $(this).attr('paintable'), $(this).attr('altName'));
+    });
+});
+</script>

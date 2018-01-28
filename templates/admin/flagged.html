@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+
+{% block title %} - Flagged Items{%endblock%}
+
+{% block content %}
+<div class="block">
+<table class="dataTable">
+<tr>
+    <th>Item</th>
+    <th>Type</th>
+    <th>Explanation</th>
+    <th>Handled</th>
+    <th>IP</th>
+    <th>SteamID</th>
+    <th>Timestamp</th>
+</tr>
+{% for flag in flagged %}
+<form method="POST">
+{% csrf_token %}
+<tr>
+    <td><a href="/view-{{flag.itemID}}">{{flag.itemID}}</td>
+    <td>{{flag.type}}</td>
+    <td>{{flag.explanation}}</td>
+    <td><input name="handled" value="{{flag.handled}}"></td>
+    <td>{{flag.ip}}</td>
+    <td>{{flag.steamID}}</td>
+    <td>{{flag.timestamp}}</td>
+    <input type="hidden" name="id" value="{{flag.id}}" style="display:none">
+    <input type="submit" style="display:none">
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="7">
+    <a href="?offset={{newer}}">Newer</a> | <a href="?offset={{older}}">Older</a>
+    </td>
+</tr>
+</form>
+</table>
+</div>
+{% endblock %}

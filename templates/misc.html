@@ -1,0 +1,93 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+ - Miscellaneous Features
+{% endblock %}
+
+{% block scripts %}
+<style>
+
+.section img
+{
+    display:inline-block;
+}
+.section .text
+{
+    min-height:130px;
+    display:inline-block;
+    max-width:800px;
+    vertical-align:top;
+}
+
+hr
+{
+    color:#766B5E;
+    background-color:#766B5E;
+    height:1px;
+    border:none;
+}
+
+h2
+{
+    margin-top:0;
+    vertical-align:top;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    {% comment %}
+    <div class="section">
+        <a href="/streak_search"><img src="/assets/items/201-1.png">
+        <div class="text">
+            <h2>Streak Search</h2></a>
+            <p>An automatic search for "killstreak" on the Steam Marketplace that allows you to filter results so you only see kits, fabricators, weapons of a certain quality, etc. The data is scraped from Valve every 10 minutes.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/item-data"><img src="/assets/items/389.png">
+        <div class="text">
+            <h2>Item Data</h2></a>
+            <p>A table of all the items that can be used on tf2tags and their qualities.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/item-generator"><img src="/assets/items/602.png">
+        <div class="text">
+            <h2>Fake Item Generator</h2></a>
+            <p> Have an idea for a new item? Or an idea to rebalance an existing one? This generator will let you create a mockup for what the item's stats would be, allowing you to set the image as well as its positive, negative, and neutral attributes. Make your (bad) idea stand out when you post about it somewhere!</p>
+        </div>
+    </div>
+    <hr>
+    {% endcomment %}
+    <div class="section">
+        <a href="/awards"><img src="/assets/items/423.png">
+        <div class="text">
+            <h2>Awards</h2></a>
+            <p>View the most prestigious submissions, both recently, and of all time.</p>
+        </div>
+    </div>
+    <hr>
+    {% comment %}
+    <div class="section">
+        <a href="/wishlist"><img src="/assets/items/341.png">
+        <div class="text">
+            <h2>Wishlist</h2></a>
+            <p> Create your own wishlist so others know what items to buy such a wonderful person as you! You'll have to be logged in for this. </p>
+        </div>
+    </div>
+    <hr>
+    {% endcomment %}
+    <div class="section">
+        <a href="/credits"><img src="/assets/items/167.png">
+        <div class="text">
+            <h2>Credits</h2></a>
+            <p>Because I couldn't have done this all alone. </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

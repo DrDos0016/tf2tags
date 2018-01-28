@@ -1,0 +1,80 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+ - Administration
+{% endblock %}
+
+{% block scripts %}
+<style>
+
+.section img
+{
+    display:inline-block;
+}
+.section .text
+{
+    min-height:130px;
+    display:inline-block;
+    max-width:800px;
+    vertical-align:top;
+}
+
+hr
+{
+    color:#766B5E;
+    background-color:#766B5E;
+    height:1px;
+    border:none;
+}
+
+h2
+{
+    margin-top:0;
+    vertical-align:top;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <div class="section">
+        <a href="/admin/postNews"><img src="/assets/items/598.png">
+        <div class="text">
+            <h2>Post News</h2></a>
+            <p>Post news or edit existing news.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/admin/user_management"><img src="/assets/items/447.png">
+        <div class="text">
+            <h2>User Management</h2></a>
+            <p>Probate or ban a user/ip. Also quickly delete items, votes, and comments by a troublesome user.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/admin/flagged"><img src="/assets/items/354.png">
+        <div class="text">
+            <h2>Flagged Items</h2></a>
+            <p>See which items have been reported.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/admin/miss_bomb"><img src="/assets/items/46.png">
+        <div class="text">
+            <h2>Miss Bomb Deletion</h2></a>
+            <p>This is why we can't have nice things.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/admin/contest_management"><img src="/assets/items/423.png">
+        <div class="text">
+            <h2>Contest Management</h2></a>
+            <p>Set start/end dates for contents.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

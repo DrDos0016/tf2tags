@@ -1,0 +1,97 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+ - Awards
+{% endblock %}
+
+{% block scripts %}
+<style>
+
+.section img
+{
+    display:inline-block;
+}
+.section .text
+{
+    min-height:130px;
+    display:inline-block;
+    max-width:800px;
+    vertical-align:top;
+}
+
+hr
+{
+    color:#766B5E;
+    background-color:#766B5E;
+    height:1px;
+    border:none;
+}
+
+h2
+{
+    margin-top:0;
+    vertical-align:top;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <div class="section">
+        <a href="/top/30/1"><img src="/assets/items/121.png">
+        <div class="text">
+            <h2>Top Rated Items of the past 30 days</h2></a>
+            <p>See the best recent additions to the site!</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/top/90/1"><img src="/assets/items/169.png">
+        <div class="text">
+            <h2>Top Rated Items of the past 90 days</h2></a>
+            <p>See the best not quite as recent additions to the site!</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/top"><img src="/assets/items/423.png">
+        <div class="text">
+            <h2>Top Rated Items of all time</h2></a>
+            <p>See the best of the best!</p>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <a href="/winners"><img src="/assets/items/134.png">
+        <div class="text">
+            <h2>Contest Winners</h2></a>
+            <p>Check out the winning submissions for completed contests. </p>
+        </div>
+    </div>
+    <hr>
+    {% if running_contest %}
+    <div class="section">
+        <a href="/contest/{{contest.theme|lower}}"><img src="/assets/items/139.png">
+        <div class="text">
+            <h2>Contest Submissions</h2></a>
+            <p>Browse every item submitted for this month's contest theme.
+            <br>This month's theme is: <span class="tf2 strange">{{contest.theme}}</span><br></p>
+            You have <span class="strange">{{time}}</span> to submit your entries before the judging phase is entered.
+
+            If you're new to contests, check out the <a href="/contest_rules">contest rules</a>.</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="section">
+        <img src="/assets/items/139.png">
+        <div class="text">
+            <h2>Contest Submissions</h2>
+            <p>No contest is currently running right now. Check the front page for new contest announcements in the future!</p>
+
+            If you're new to contests, check out the <a href="/contest_rules">contest rules</a>.</p>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

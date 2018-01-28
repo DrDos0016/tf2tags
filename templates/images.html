@@ -1,0 +1,25 @@
+﻿{% extends "main.html" %}
+
+{% block scripts %}
+<style>
+.col
+{
+    display:inline-block;
+    border:1px solid #FFD700;
+    text-align:center;
+    margin:5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+<b><a href="http://wiki.teamfortress.com/wiki/{{item}}">{{item}}</a></b> - {{count}} - (36/72/108/144)<br>
+{% for image in images %}
+<div class="col" style="width:110px">
+    <img src="{{image}}" style="width:64px;height:64px"><br>
+    {{image|slice:"14:-4"}}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

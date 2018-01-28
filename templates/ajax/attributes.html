@@ -1,0 +1,22 @@
+{% for attr in attributes %}
+    {% if forloop.first %}
+        <div style="display:inline-block;width:300px;border:1px solid #766B5E;vertical-align:top;margin-right:8px;">
+    {% endif %}
+    
+    <div name="attrEntry" style="width:300px;height:20px;border-bottom:1px solid #766B5E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" data-attrname="{{attr.name}}" data-attrdesc="{{attr.description_string}}" data-format="{{attr.description_format}}" data-int="{{attr.stored_as_integer}}">
+    <input name="attrib" id="attr{{forloop.counter}}" style="width:40px" data-attrname="{{attr.name}}">
+        {% if attr.effect_type == "positive" %}
+            <span style="color:#0f0">
+        {% elif attr.effect_type == "negative" %}
+            <span style="color:#f00">
+        {% else %}
+            <span>
+        {% endif %}
+        {{attr.name}} </span></div>
+    {% if forloop.counter|divisibleby:150 %}
+        </div><div style="display:inline-block;width:300px;border:1px solid #766B5E;vertical-align:top;margin-right:8px;">
+    {% endif %}
+    {% if forloop.last %}
+        </div>
+    {% endif %}
+{% endfor %}

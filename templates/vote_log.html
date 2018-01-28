@@ -1,0 +1,22 @@
+﻿{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+<table class="dataTable">
+    <tr>
+        <th>ID</th>
+        <th>Voter</th>
+        <th>Vote</th>
+        <th>Date</th>
+    </tr>
+    {% for vote in votes %}
+    <tr>
+        <td>{{vote.id}}</td>
+        <td>{{vote.display_name}}</td>
+        <td>{% if vote.vote == 1 %}Crit{% else %}Miss{% endif %}</td>
+        <td>{{vote.timestamp}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

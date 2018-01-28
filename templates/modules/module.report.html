@@ -1,0 +1,14 @@
+﻿Please select the reason you are reporting this item:<br>
+<form method="POST" action="/submit_report">
+{% csrf_token %}
+<input type="hidden" name="item" value="{{items.0.id}}">
+<select name="reason">
+    <option value="duplicate">Duplicate Submission</option>
+    <option value="junk">Junk Submission</option>
+    <option value="aup">Submission Policy Violation (Racist/Homophobic/Etc)</option>
+    <option value="other">Other</option>
+</select><br>
+And give any notes that might be relevant.<br>(Such as a link to the original item if this is a duplicate)<br>
+<textarea name="explanation" style="width:300px;height:80px;"></textarea><br><br>
+<input type="submit" class="tf2button" value="Report Submission">
+</form>

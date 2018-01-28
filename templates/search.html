@@ -1,0 +1,394 @@
+﻿{% extends "main.html" %}
+
+{% block title %} - Search {% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function (){
+    $('.frame').click(function (){
+        choice($(this).data('setting'));
+    });
+    
+    $('img[name=classChoice]').hover(function (){
+        $('#classDisplay').html("- " + $(this).data("class") + " -");
+    });
+    
+    $('img[name=classChoice]').blur(function (){
+        $('#classDisplay').html("");
+    });
+    
+    $('img[name=slotChoice]').hover(function (){
+        $('#slotDisplay').html("- " + $(this).data("slot") + " -");
+    });
+    
+    $('img[name=slotChoice]').blur(function (){
+        $('#slotDisplay').html("");
+    });
+    
+    $('input').blur(function (){
+        text = $(this).val()
+        if (text == "")
+        {
+            $(this).attr("placeholder", "Any");
+        }
+    });
+    
+    $('img[name=classChoice]').click(function (){
+        role = $(this).data('class');
+        $('input[name=class]').val(role.toLowerCase());
+        $('#classText').html(role);
+        $('#classPic').attr('src', '/assets/images/search/'+role.toLowerCase()+'.png');
+    });
+    
+    $('img[name=slotChoice]').click(function (){
+        slot = $(this).data('slot');
+        $('input[name=slot]').val(slot.toLowerCase());
+        $('#slotText').html(slot);
+        $('#slotPic').attr('src', $(this).attr('src'));
+    });
+    
+    $('select[name=order]').change(function (){
+        text = $(this).val();
+        
+        if (text == "Date Added")
+            $('#sortPic').attr('src', '/assets/images/search/date.png');
+        else if (text == "Name")
+            $('#sortPic').attr('src', '/assets/images/search/name.png');
+        else if (text == "Item Type")
+            $('#sortPic').attr('src', '/assets/images/search/type.png');
+        else if (text == "Score")
+            $('#sortPic').attr('src', '/assets/images/search/rating.png');
+    });
+});
+
+function choice(name)
+{
+    $('.choice').hide();
+    $('#'+name).show();
+    
+    if (name == "base")
+        loadBases();
+    if (name == "name")
+        $('input[name=name]').focus();
+    if (name == "desc")
+        $('input[name=desc]').focus();
+    if (name == "date")
+        $('input[name=start]').focus();
+    if (name == "keywords")
+        $('input[name=keywords]').focus();
+    if (name == "rating")
+        $('input[name=rating]').focus();
+    if (name == "sort")
+    {
+        return false;
+    }
+}
+
+function loadBases()
+{
+    role = $('input[name=class]').val().slice(0,1).toUpperCase() + $('input[name=class]').val().substr(1);
+    slot = $('input[name=slot]').val();
+    
+    if (role == "" || slot == "")
+    {
+        $('#itemList').html('You need to choose a class and slot before filtering by a base item.');
+    }
+    ajax_url = '/ajax/getItems?role='+role+'&slot='+slot;
+    $.ajax({
+        url: ajax_url,
+        success: function(data) {
+            html = render_item_list(data);
+            $('#itemList').html(html);
+            
+            $('.item').click(function() {
+                
+                setItem($(this).data('defindex'));
+            });
+        }
+    });
+}
+
+function prepare()
+{
+    if ($('input[name=class]').val() == "")
+    {
+        $('input[name=class]').remove();
+    }
+    if ($('input[name=slot]').val() == "")
+    {
+        $('input[name=slot]').remove();
+    }
+    if ($('input[name=base]').val() == "")
+    {
+        $('input[name=base]').remove();
+    }
+    if ($('input[name=name]').val() == "")
+    {
+        $('input[name=name]').remove();
+    }
+    if ($('input[name=desc]').val() == "")
+    {
+        $('input[name=desc]').remove();
+    }
+    if ($('input[name=start]').val() == "")
+    {
+        $('input[name=start]').remove();
+    }
+    if ($('input[name=end]').val() == "")
+    {
+        $('input[name=end]').remove();
+    }
+    if ($('input[name=keywords]').val() == "")
+    {
+        $('input[name=keywords]').remove();
+    }
+    if ($('input[name=rating]').val() == "")
+    {
+        $('input[name=rating]').remove();
+    }
+}
+
+function setItem(defindex)
+{
+    finalBase = $('#item-'+defindex).html();
+    
+    $('input[name=base]').val(finalBase.toLowerCase());
+    $('#baseText').html(name);
+    $('#basePic').attr('src', $('#image-'+defindex).attr('src'));
+}
+
+function render_item_list(data)
+{
+    var out = "";
+    var letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    var found_letters = [];
+    var letter_links = "<div style='text-align:center'>";
+    for (var x = 0; x < data.length; x++)
+    {
+        var starts_with = data[x]["item_name"].replace("The ", "").toUpperCase().substring(0,1);
+        if ($.inArray(starts_with, letters) == -1)
+            found_letters.push(starts_with);
+        out += '<div class="item" data-defindex="'+data[x]["defindex"]+'" data-starts_with="'+starts_with+'"><img id="image-'+data[x]["defindex"]+'" src="'+data[x]["image"]+'"><div id="item-'+data[x]["defindex"]+'">'+data[x]["item_name"]+'</div></div>\n';
+    }
+    if (out == "")
+    {
+        out = "<div class='tf2 Unique' style='text-align:center;font-size:24px;'>No " + finalClass + " " + finalSlot + " items were found</div>";
+        return out;
+    }
+    
+    // Create letter links -- LATER
+    /*
+    for (var x = 0; x < letters.length; x++)
+    {
+        console.log(letters[letter]);
+        if ($.inArray(letters[x], found_letters) != -1)
+            letter_links += "<span class='jsLink tf2 Unique' name='letter_link'>"+letters[x]+"</span> ";
+        else
+            letter_links += "<span class='tf2 Normal'>"+letters[x]+"</span> \n";
+    }
+    */
+    
+    return letter_links + "</div>\n" + out;
+}
+</script>
+
+<style>
+.frame
+{
+    display:inline-block;
+    width:160px;
+    height:160px;
+    font-family:TF2 Build;
+    font-size:18px;
+    text-align:center;
+    vertical-align:top;
+    padding:4px;
+    color:#ECE3CB;
+    border:2px solid #766B5E;
+    border-radius: 12px;
+    font-size: 16pt;
+}
+
+.frame:hover
+{
+    cursor:pointer;
+}
+
+.searchRow
+{
+    margin:auto;
+    width:100%;
+    text-align:center;
+}
+
+.frame img
+{
+    margin-bottom:2px;
+}
+
+.frame input, select
+{
+    background-color:transparent;
+    border:1px solid #766B5E;
+    margin:1px;
+    color:#FFD700;
+    text-align:center;
+    width:90%;
+}
+
+.choice
+{
+    display:none;
+    text-align:center;
+}
+
+.choice img:hover
+{
+    cursor:pointer;
+}
+
+#baseText
+{
+    height:45px;
+    overflow:hidden;
+}
+
+#basePic
+{
+    width:85px;
+    height:85px;
+}
+
+input[type=submit]
+{
+    background-color:#776B5f;
+    border:none;
+    color:#ECE3CB;
+    font-family: TF2 Build;
+    border-radius: 3px;    
+    font-size: 16pt;
+    min-width:128px;
+    height:32px;
+    text-align:center;
+}
+</style>
+{% endblock%}
+
+{% block content %}
+<div class="block">
+<form id="searchForm" method="GET" action="/results" onsubmit="prepare()">
+    <div class="searchRow">
+        <div class="frame" data-setting="classes">
+            Class<br>
+            <img src="/assets/images/search/any.png" id="classPic"><br>
+            <span class="tf2b" id="classText">Any</span>
+            <input type="hidden" name="class">
+        </div>
+        
+        <div class="frame" data-setting="slots">
+            Slot<br>
+            <img src="/assets/images/search/any.png" id="slotPic"><br>
+            <span class="tf2b" id="slotText">Any</span>
+            <input type="hidden" name="slot">
+        </div>
+        
+        <div class="frame" data-setting="base">
+            Base<br>
+            <img src="/assets/images/search/any.png" id="basePic"><br>
+            <div class="tf2b" id="baseText">Any</div>
+            <input type="hidden" name="base">
+        </div>
+        
+        <div class="frame" data-setting="name">
+            Name<br>
+            <img src="/assets/images/search/name.png"><br>
+            <input class="tf2b" name="name" placeholder="Any">
+        </div>
+        
+        <div class="frame" data-setting="desc">
+            Description<br>
+            <img src="/assets/images/search/description.png"><br>
+            <input class="tf2b" name="desc" placeholder="Any">
+        </div>
+    </div>
+    
+    <br>
+    
+        <div class="searchRow">
+        <div class="frame" data-setting="date">
+            Date<br>
+            <img src="/assets/images/search/date.png"><br>
+            <input class="tf2b" name="start" placeholder="Any"><br>
+            <input class="tf2b" name="end" placeholder="Any"><br>
+        </div>
+        
+        <div class="frame" data-setting="keywords">
+            Keywords<br>
+            <img src="/assets/images/search/keyword.png"><br>
+            <input class="tf2b" name="keywords" placeholder="Any">
+        </div>
+        
+        <div class="frame" data-setting="rating">
+            Min. Rating<br>
+            <img src="/assets/images/search/rating.png"><br>
+            <input class="tf2b" name="rating" placeholder="Any">
+        </div>
+        
+        <div class="frame" data-setting="sort" style="cursor:default">
+            Sort By<br>
+            <img src="/assets/images/search/date.png" id="sortPic"><br>
+            <select class="tf2b" name="order">
+                <option value="timestamp">Date Added</option>
+                <option value="name">Name</option>
+                <option value="base">Item Type</option>
+                <option value="score">Score</option>
+            </select>
+        </div>
+        
+        <div class="frame" id="search" data-setting="search" style="cursor:default">
+            Search<br>
+            <img src="/assets/images/search/search.png" id="sortPic"><br>
+            <input type="submit" class="tf2button" value="Search" id="submit">
+        </div>
+    </div>
+    <br>
+    
+    <div id="classes" class="choice">
+        <div style="text-align:center" class="tf2">Select a class</div>
+        <img name="classChoice" data-class="Scout" src="/assets/images/search/scout.png">
+        <img name="classChoice" data-class="Soldier" src="/assets/images/search/soldier.png">
+        <img name="classChoice" data-class="Pyro" src="/assets/images/search/pyro.png">
+        <img name="classChoice" data-class="Demoman" src="/assets/images/search/demoman.png">
+        <img name="classChoice" data-class="Heavy" src="/assets/images/search/heavy.png">
+        <img name="classChoice" data-class="Engineer" src="/assets/images/search/engineer.png">
+        <img name="classChoice" data-class="Medic" src="/assets/images/search/medic.png">
+        <img name="classChoice" data-class="Sniper" src="/assets/images/search/sniper.png">
+        <img name="classChoice" data-class="Spy" src="/assets/images/search/spy.png">
+        <img name="classChoice" data-class="All" src="/assets/images/search/all.png">
+        <img name="classChoice" data-class="Any" src="/assets/images/search/any.png">
+        <br>
+        <span id="classDisplay" class="tf2 unique">&nbsp;</span>
+    </div>
+    
+    <div id="slots" class="choice">
+        <div style="text-align:center" class="tf2">Select a slot</div>
+        <img name="slotChoice" data-slot="Primary" src="/assets/images/create/primary.png">
+        <img name="slotChoice" data-slot="Secondary" src="/assets/images/create/secondary.png">
+        <img name="slotChoice" data-slot="Melee" src="/assets/images/create/melee.png">
+        <img name="slotChoice" data-slot="PDA" src="/assets/images/create/pda.png">
+        <img name="slotChoice" data-slot="PDA2" src="/assets/images/create/pda2.png">
+        <img name="slotChoice" data-slot="Misc" src="/assets/images/create/misc.png">
+        <img name="slotChoice" data-slot="Action" src="/assets/images/create/action.png">
+        <br>
+        <span id="slotDisplay" class="tf2 unique">&nbsp;</span>
+    </div>
+    
+    <div id="base" class="choice">
+        <div style="text-align:center" class="tf2">Select an item</div>
+        <div id="itemList">You need to choose a class and slot before filtering by a base item.</div>
+    </div>
+</form>
+<br>
+</div>
+
+{% endblock %}

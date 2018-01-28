@@ -1,0 +1,47 @@
+﻿{% extends "main.html" %}
+
+{% block title %} - News Post: {{news.title}}{% endblock %}
+
+{% block scripts %}
+{% if set_cookie %}
+<script type="text/javascript">
+    function set_cookie(name,value,days) {
+        if (days)
+        {
+            var date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            var expires = "; expires="+date.toGMTString();
+        }
+        else
+            var expires = "";
+        document.cookie = name+"="+value+expires+"; path=/";
+    }
+    
+    set_cookie("latest_news", "{{news.timestamp|date:"Y-m-d"}}", 360);
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <div name="news">
+        <div class="news-left">
+            <img src="/assets/images/portraits/{{news.image}}" alt="avatar"><br>
+            <a href="http://steamcommunity.com/{{news.profile}}">{{news.author}}</a>
+        </div>
+        <div class="news-right">
+            <div class="news-head">
+                <h1>{{news.title}}</h1>
+                {{news.timestamp}}
+            </div>
+            {{news.text|safe}}
+        </div>
+    </div>
+    
+    <div style="text-align:center">
+        <a href="/news_archive">
+        <img src="/assets/images/intel.png"><br>
+        News Archive</a>
+    </div>
+</div>
+{% endblock %}

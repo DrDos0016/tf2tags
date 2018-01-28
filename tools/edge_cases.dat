@@ -1,0 +1,176 @@
+####################################################################################################
+# EDGE CASES                                                                                       #
+####################################################################################################
+# The following changes are needed to make the schema more "accurate".                             #
+#                                                                                                  #
+# Any line beginning with a pound sign will be ignored.                                            #
+# Anything after a semicolon will also be ignored.                                                 #
+####################################################################################################
+# COMMANDS                                                                                         #
+#                                                                                                  #
+# DELETE ITEM <defindex> - Removes item from the schema entirely.                                  #
+# SET SLOT <defindex> <value> - Sets item's slot.                                                  #
+# TOGGLE PAINT <defindex> - Reverses item's paintability.                                          #
+# TOGGLE NAMING <defindex> - Reverses item's nameability.                                          #
+# TOGGLE RARITY <defindex> <value> - Reverses a rarity being allowed on an item.                   #
+# REMOVE STYLES <defindex> - Removes all styles from the item.                                     #
+# RENAME STYLE <defindex> <style#> <new_name> - Give a style a friendlier name. Starts at 0        #
+####################################################################################################
+
+####################################################################################################
+# Duplicate Items - My personal preference on these is to keep the first entry and remove any      #
+# others afterwards.                                                                               #
+####################################################################################################
+
+DELETE ITEM 294; Lugermorph duplicate
+DELETE ITEM 831; Promo Red-Tape Recorder
+DELETE ITEM 833; Promo Flying Guillotine
+DELETE ITEM 835; Promo Triad Trinket
+DELETE ITEM 836; Promo Champ Stamp
+DELETE ITEM 834; Promo Neon Annihilator
+DELETE ITEM 832; Promo Huo-Long Heater
+DELETE ITEM 850; Deflector
+DELETE ITEM 576; Spine-Chilling Skull 2011. The site uses the individual components instead.
+DELETE ITEM 838; Promo Human Cannonball
+DELETE ITEM 744; Vintage Pyrovision Goggles
+DELETE ITEM 837; Promo Marxman
+DELETE ITEM 736; Sapper duplicate
+DELETE ITEM 1057; TF_Gatebot_Light mistake item
+DELETE ITEM 1058; TF_Gatebot_Light mistake item
+DELETE ITEM 1059; TF_Gatebot_Light mistake item
+DELETE ITEM 1060; TF_Gatebot_Light mistake item
+DELETE ITEM 1061; TF_Gatebot_Light mistake item
+DELETE ITEM 1062; TF_Gatebot_Light mistake item
+DELETE ITEM 1063; TF_Gatebot_Light mistake item
+DELETE ITEM 1064; TF_Gatebot_Light mistake item
+DELETE ITEM 1065; TF_Gatebot_Light mistake item
+
+# 30149-30161 Robo-hats that are just white circles
+DELETE ITEM 30143;
+DELETE ITEM 30144;
+DELETE ITEM 30145;
+DELETE ITEM 30146;
+DELETE ITEM 30147;
+DELETE ITEM 30148; Not actually a white circle but still
+DELETE ITEM 30149;
+DELETE ITEM 30150;
+DELETE ITEM 30151;
+DELETE ITEM 30152;
+DELETE ITEM 30153;
+DELETE ITEM 30154;
+DELETE ITEM 30155;
+DELETE ITEM 30156;
+DELETE ITEM 30157;
+DELETE ITEM 30158;
+DELETE ITEM 30159;
+DELETE ITEM 30160;
+DELETE ITEM 30161;
+
+DELETE ITEM 5074; Something Special For Someone Special (the initial item, not the ring you wear)
+
+####################################################################################################
+# Slot Fixes - The main one here is that the default shotgun (defindex 199) varies. This is handled#
+# by tf2tags internally and does not need to be fixed.                                             #
+####################################################################################################
+
+SET SLOT 735 pda; Replace "building" slot with "pda" to get sappers to display
+SET SLOT 810 pda;
+SET SLOT 933 pda;
+
+####################################################################################################
+# Paint Errors - Some items are marked as paintable but do not change when painted at all.         #
+####################################################################################################
+
+TOGGLE PAINT 614; The Hot Dogger
+TOGGLE PAINT 840; U-Clank-A
+
+####################################################################################################
+# Naming Errors - You can name the wedding ring when you buy it, but not afterwards.               #
+####################################################################################################
+
+TOGGLE NAMING 5075; Something Special for Someone Special
+
+####################################################################################################
+# Rarity Fixes - A very rare handful of items can't be Unique which is true by default.            #
+####################################################################################################
+
+#TOGGLE RARITY 266 Unique; Headtaker
+# These strange weapons have extra symbols when downloaded from the wiki
+#TOGGLE RARITY 264 Strange; Frying Pan
+#TOGGLE RARITY 386 Strange; Teddy Roosebelt 
+
+####################################################################################################
+# Style Removal - These items lack style images on the wiki as the cosmetic item isn't changed     #
+####################################################################################################
+
+REMOVE STYLES 5; Fists (at one point were team colored!)
+REMOVE STYLES 617; Backwards Ballcap
+REMOVE STYLES 451; Bonk Boy
+REMOVE STYLES 771; Liquor Locker
+REMOVE STYLES 478; Copper's Hard Top
+REMOVE STYLES 334; HOUWAR
+REMOVE STYLES 333; Treasure Hat
+REMOVE STYLES 116; Ghastlierest Gibus
+REMOVE STYLES 279; Ghastlier Gibus
+REMOVE STYLES 584; Ghastly Gibus
+REMOVE STYLES 940; Ghostly Gibus
+# Spine-Chilling Skull 2011 is deleted by this point but its styles would be removed.
+
+REMOVE STYLES 816; Marxman
+REMOVE STYLES 824; Koala Compact
+REMOVE STYLES 1034; Conspiracy Cap
+REMOVE STYLES 1035; Public Accessor
+
+# The skulls are unique items
+REMOVE STYLES 578; Skulls
+REMOVE STYLES 579; Skulls
+REMOVE STYLES 580; Skulls
+
+####################################################################################################
+# Style Rename - These items have no names for their styles                                        #
+####################################################################################################
+RENAME STYLE 36 0 Default
+RENAME STYLE 36 1 Australium
+RENAME STYLE 38 0 Default
+RENAME STYLE 38 1 Australium
+RENAME STYLE 45 0 Default
+RENAME STYLE 45 1 Australium
+RENAME STYLE 61 0 Default
+RENAME STYLE 61 1 Australium
+RENAME STYLE 132 0 Default
+RENAME STYLE 132 1 Australium
+RENAME STYLE 141 0 Default
+RENAME STYLE 141 1 Australium
+RENAME STYLE 194 0 Default
+RENAME STYLE 194 1 Australium
+RENAME STYLE 197 0 Default
+RENAME STYLE 197 1 Australium
+RENAME STYLE 200 0 Default
+RENAME STYLE 200 1 Australium
+RENAME STYLE 201 0 Default
+RENAME STYLE 201 1 Australium
+RENAME STYLE 202 0 Default
+RENAME STYLE 202 1 Australium
+RENAME STYLE 203 0 Default
+RENAME STYLE 203 1 Australium
+RENAME STYLE 205 0 Default
+RENAME STYLE 205 1 Australium
+RENAME STYLE 206 0 Default
+RENAME STYLE 206 1 Australium
+RENAME STYLE 207 0 Default
+RENAME STYLE 207 1 Australium
+RENAME STYLE 208 0 Default
+RENAME STYLE 208 1 Australium
+RENAME STYLE 211 0 Default
+RENAME STYLE 211 1 Australium
+RENAME STYLE 228 0 Default
+RENAME STYLE 228 1 Australium
+RENAME STYLE 424 0 Default
+RENAME STYLE 424 1 Australium
+
+####################################################################################################
+# Temporary - These changes won't be around forever                                                #
+####################################################################################################
+TOGGLE PAINT 578; Skulls
+
+REMOVE STYLES 923; Plutonidome has no pictures for 2nd style

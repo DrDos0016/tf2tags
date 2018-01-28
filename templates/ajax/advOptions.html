@@ -1,0 +1,156 @@
+<div id="rarity" style="display:none;">
+    {% for rarity in item.rarities %}
+        {% if forloop.first %}
+        <div class="column">
+        {% endif %}
+        
+        {% if rarity != "Normal" %}
+            {% if rarity != "Collector's" %}
+                <div name="rarity" class="{{rarity}}">{{rarity}}</div>
+            {% else %}
+                <div name="rarity" class="Collector">Collector's</div>
+            {% endif %}
+        {% endif %}
+        
+        {% if forloop.last %}
+        <span class="tf2b jsLink" id="filters" style="display:none;color:#FFF;">
+            <img src="/assets/images/create/filter.png"><br>
+            Filter
+        </span>
+        </div>
+        {% endif %}
+    {% endfor %}
+    
+    {% for rarity in item.rarities_strange %}
+        {% if forloop.counter0|divisibleby:10 %}
+        <div class="column">
+        {% endif %}
+        
+        <div name="rarity" class="{{rarity}}">{{rarity}}</div>
+        
+        {% if forloop.counter|divisibleby:10 %}
+        </div>
+        {% endif %}
+        {% if forloop.last %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div id="filterList" class="strange" style="display:none">
+    <div class="column">
+        <div class="normal" name="filter">None</div>
+        <div name="filter">Canadian</div>
+        <div name="filter">Chaotic</div>
+        <div name="filter">Covert</div>
+        <div name="filter">Dazzling</div>
+        <div name="filter">Efficient</div>
+        <div name="filter">Egyptian</div>
+        <div name="filter">Fresh</div>
+        <div name="filter">Frosty</div>
+        <div name="filter">Hydraulic</div>
+    </div>
+    
+    <div class="column">
+        <div name="filter">Locomotive</div>
+        <div name="filter">Mennko</div>
+        <div name="filter">Outlaw</div>
+        <div name="filter">Psychadelic</div>
+        <div name="filter">Rigid</div>
+        <div name="filter">Rugged</div>
+        <div name="filter">Sophisticated</div>
+        <div name="filter">Spooky</div>
+        <div name="filter">Sun-Kissed</div>
+        <div name="filter">Technical</div>
+
+    </div>
+    
+    <div class="column">
+        <div name="filter">Vigilant</div>
+        <div name="filter">Wild</div>
+    </div>
+    
+    {% comment %}
+    <!-- April Fools -->
+    <div class="column">
+        <div name="filter">Magical</div>
+        <div name="filter">Under-Rated</div>
+        <div name="filter">Over-Rated</div>
+        <div name="filter">Sensual</div>
+        <div name="filter">Mysterious</div>
+        <div name="filter">Home-Made</div>
+        <div name="filter">Artifical</div>
+        <div name="filter">Glistening</div>
+        <div name="filter">Wet</div>
+        <div name="filter">Dry</div>
+    </div>
+    
+    <div class="column">
+        <div name="filter">Spicy</div>
+        <div name="filter">Vegetarian</div>
+        <div name="filter">Raggedy</div>
+        <div name="filter">Gross</div>
+        <div name="filter">Equestrian</div>
+        <div name="filter">Infernal</div>
+        <div name="filter">Mann Co.</div>
+        <div name="filter">Dalek</div>
+        <div name="filter">Misconfigured</div>
+        <div name="filter">Malfunctioning</div>
+    </div>
+    {% endcomment %}
+</div>
+
+<div id="particles"></div>
+
+<div id="paint">
+    <div name="paint" style="background-color:#776B5F;border:4px solid #776B5F;" paint="" color="blank">X</div>
+    {% for paint in item.paints %}
+        <div name="paint" style="background-color:#{{paint.color}};border:4px solid #{{paint.color}}" paint="{{paint.name}}" color="{{paint.color}}">&nbsp</div>
+    {% if forloop.counter = 18 %}
+        <br>
+    {% endif %}
+    {% endfor %}
+    <div id="paintDetail"><img id="paintCan" src="/assets/images/paints/blank.png"><div class="tf2" id="paintName"></div></div>
+</div>
+
+<div id="style">
+    {% for style in item.styles %}
+        <div class="tf2" name="style" num="{{forloop.counter0}}">{{style.name}}</div>
+    {% endfor %}
+</div>
+
+<script>
+$(document).ready(function() {
+    $('div[name=rarity]').click(function() {
+        setRarity($(this).attr('class'), $(this).css('color'));
+    });
+    
+    $('div[name=particles]').click(function() {
+        setParticles($(this).children("span[name=particle_choice]").html());
+        $("html, body").scrollTop($('#step5').offset().top)
+    });
+    
+    $('div[name=paint]').hover(function() {
+        pcolor = $(this).attr('color');
+        pname = $(this).attr('paint');
+        $('#paintCan').attr('src', '/assets/images/paints/'+pcolor+'.png')
+        $('#paintName').html(pname);
+    });
+    
+    $('div[name=paint]').click(function() {
+        setPaint($(this).attr('color'));
+    });
+    
+    $('div[name=style]').click(function() {
+        setStyle($(this).attr('num'));
+    });
+    
+    $('#filters').click(function() {
+        showFilters();
+    });
+    
+    $('div[name=filter]').click(function() {
+        setFilter($(this).html());
+    });
+});
+</script>

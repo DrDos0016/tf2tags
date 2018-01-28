@@ -1,0 +1,63 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+     - Contest Winners
+{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/vote.js?v=20160412"></script>
+{% endblock %}
+
+{% block content %}
+<div class="block" style="background-color:#2A2725">
+
+{% for i in items %}
+    {% comment %}
+    <div class="tf2 date" style="width:50%;">{{i.datetime|date:"M Y"}} - {{i.theme}} - <a href="/contest/{{i.theme}}">View Entries</a></div>
+    <div style="margin:auto;text-align:center;">
+        {% include 'modules/module.item.html' %}
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="spacer" style="height:8px">&nbsp;</div>
+    {% endcomment %}
+    
+    <div class="tf2 date" style="width:50%;">{{i.datetime|date:"M Y"}} - {{i.theme}} - <a href="/contest/{{i.theme}}">View Entries</a></div>
+    
+    <div class="item-entry">
+        <div class="item-container">
+            <div class="item-image">
+                <img src="/assets/items/{{i.image}}.png">
+            </div>
+            <div class="item-text">
+                <div class="tf2" style="color:#{{i.color}}">{{i.display_name}}</div>
+                <div class="tf2b">{{i.display_desc}}</div>
+                <div class="tf2b">{{i.display_particles}}</div>
+            </div>
+        </div>
+        
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+{% endblock %}

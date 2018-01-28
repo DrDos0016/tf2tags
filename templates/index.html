@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+    {% for news in newsposts %}
+    <div name="news">
+        <div class="news-left">
+            <img src="/assets/images/portraits/{{news.image}}" alt="avatar">
+            <a href="http://steamcommunity.com/{{news.profile}}">{{news.author}}</a>
+        </div>
+        <div class="news-right">
+            <div class="news-head">
+                <h1><a href="/news_archive/{{news.id}}">{{news.title}}</a></h1>
+                {{news.timestamp}}
+            </div>
+            {{news.text|safe}}
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div style="text-align:center">
+        <a href="/news_archive">
+        <img src="/assets/images/intel.png" alt="news archive"><br>
+        News Archive</a>
+    </div>
+</div>
+{% endblock %}

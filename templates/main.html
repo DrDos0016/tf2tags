@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>tf2tags{% block title %}{{title}}{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=20180101">
+<link rel="stylesheet" type="text/css" href="/assets/css/rarities.css?v=20180101">
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<meta name="description" content="Submit and rate both names and descriptions for Team Fortress 2 items">
+<meta name="keywords" content="tf2, team fortress 2, games, valve, items">
+{% block meta %}
+{% endblock %}
+</head>
+
+<!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+<script src="/assets/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+{% block scripts %}
+{% endblock %}
+
+<body>
+
+<div style="width:100%;display:inline-block">
+    <div id="profile">
+    {% if not user.isUser or user.steamID == '0' %}
+        <a href="/openid/login"><img src="/assets/images/signin.png" alt="Sign In" class="signin"></a>
+    {% else %}
+        <img src="{{user.avatar}}" alt="{{user.name}}"> <div style="display:inline-block;text-align:right;vertical-align:top;"><a href="/profile/{{user.steamID}}">{% if user.name %}{{user.name}}{% else %}View Profile{% endif %}</a><br><a href="/logout">Logout</a><div style="float:left;" title="Submissions Today / Max Today">({{user.submitted}}/{{user.max_submitted}})</div></div>
+    {% endif %}
+    </div>
+
+    <div class="header"><div class="column"><a href="/browse"><img src="/assets/images/nav/latest.png" alt="Latest"><br>Latest</a></div><div class="column"><a href="/create"><img src="/assets/images/nav/create.png" alt="Create"><br>Create</a></div><div class="column"><a href="/search"><img src="/assets/images/nav/search.png" alt="Search"><br>Search</a></div><div class="column"><a href="/random"><img src="/assets/images/nav/random.png" alt="Random"><br>Random</a></div><div class="small_break"></div><div class="column"><a href="/site_rules"><img src="/assets/images/nav/rules.png" alt="Site Rules"><br>Rules</a></div><div class="column"><a href="/news"><img src="/assets/images/nav/news.png" alt="News"><br>News</a></div><div class="column"><a href="/misc"><img src="/assets/images/nav/misc.png" alt="Misc"><br>Misc</a></div></div>
+</div>
+
+<div class="ad-frame">
+</div>
+
+{% block content %}
+<div class="block">
+</div>
+{% endblock %}
+
+<div class="ad-frame">
+</div>
+
+<div style="text-align:center;font-size:10px;">
+    &bull; tf2tags &bull;<br>
+    &bull; <a href="http://steampowered.com/">Powered by Steam</a> &bull;<br>
+    &bull; Server Date/Time: {% now "F jS Y H:i" %} &bull;<br>
+    {% if user.admin %}
+        &bull; <a href="/admin">Site Adminstration</a> &bull;
+    {% endif %}
+    &bull; <a href="https://github.com/DrDos0016/tf2tags">Site Source</a>
+</div>
+
+<script type="text/javascript">
+// Google Analytics info was here
+</script>
+</body>
+</html>

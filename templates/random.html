@@ -1,0 +1,44 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+     - Random Items
+{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/vote.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="block" style="background-color:#2A2725">
+
+<div style="margin:auto;width:128px;">
+<a href="/random"><input type="button" class="tf2button" value="reroll" style="cursor:pointer"></a>
+<br><br>
+</div>
+
+{% for i in items %}
+    <div style="margin:auto;text-align:center;">
+        {% include 'modules/module.item.html' %}
+        
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="spacer" style="height:8px">&nbsp;</div>
+{% endfor %}
+
+<div style="margin:auto;width:128px;">
+<a href="/random"><input type="button" class="tf2button" value="reroll" style="cursor:pointer"></a>
+<br><br>
+</div>
+
+</div>
+{% endblock %}

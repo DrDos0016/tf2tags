@@ -1,0 +1,88 @@
+﻿{% extends "main.html" %}
+
+{% block title %} - Post News {% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function (){
+    $('#preview').click(function () {
+        title = $('input[name=title]').val();
+        author = $('input[name=author]').val();
+        email = $('input[name=email]').val();
+        image = $('select[name=image]').val();
+        news = $('textarea[name=news]').val();
+        news = news.replace(/\n/g, '<br>');
+
+        $('div[name=news]').show();
+        $('#prev-image').attr("src", "/assets/images/portraits/"+image);
+        $('#prev-title').html(title);
+        $('#prev-author').html(author);
+        $('#prev-author').attr("href", "mailto:"+email);
+        $('#prev-news').html(news);
+    });
+});
+</script>
+<style>
+label
+{
+    width:200px;
+    text-align:right;
+    display:inline-block;
+    margin-bottom:10px;
+    vertical-align:top;
+}
+
+input, select
+{
+    width:300px;
+}
+
+input[type=checkbox]
+{
+    width:auto;
+}
+
+textarea
+{
+    width:600px;
+    height:150px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+<form method="POST" action="">
+{% csrf_token %}
+<input name="id" value="{{id}}" type="hidden">
+<label>Title:</label> <input name="title" maxlength="50"><br>
+<label>Author:</label> <input name="author" maxlength="50" value=""><br>
+<label>Email:</label> <input name="email" maxlength="50" value=""><br>
+<label>Image:</label> <select name="image">
+{% for image in images %}
+<option value="{{image}}">{{image}}</option>
+{% endfor %}
+</select><br>
+<label>Tumblr:</label> <input type="checkbox" name="tumblr" value="1"><br>
+<label>Tags (tag1, tag2):</label> <input name="tags" value="site update"><br>
+<label>News:</label> <textarea name="news" maxlength="8000">{{news.plain}}</textarea><br>
+<label>&nbsp;</label> <input type="submit" value="Post/Edit News"><input type="button" id="preview" value="Preview News">
+</form>
+
+{{ POST }}
+<hr>
+<div name="news" style="{% if news.title == "" %}display:none{% endif %}">
+        <div class="news-left">
+            <img id="prev-image" src="/assets/images/portraits/{{news.image}}" alt="">
+            <a id="prev-author" href="mailto:{{news.email}}">{{news.author}}</a>
+        </div>
+        <div class="news-right">
+            <div class="news-head">
+                <h1 id="prev-title">{{news.title}}</h1>
+                {{news.timestamp}}
+            </div>
+            <span id="prev-news">{{news.text|safe}}</span>
+        </div>
+</div>
+</div>
+{% endblock %}

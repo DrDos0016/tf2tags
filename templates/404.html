@@ -1,0 +1,68 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>tf2tags - 404</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/rarities.css" />
+<link rel="shortcut icon" href="assets/images/favicon.ico" />
+
+<script src="/assets/js/jquery-1.7.2.min.js"></script>
+{% block scripts %}
+{% endblock %}
+
+{% if TRACKING %}
+<!--Google Analytics Script goes here-->
+{% endif %}
+</head>
+
+<body>
+<div id="profile">
+</div>
+<table class="header" style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <td class="header-link"><a href="/"><img src="/assets/images/nav/home.png"><br>Home</a></td>
+        <td class="header-link"><a href="/browse"><img src="/assets/images/nav/latest.png"><br>Latest</a></td>
+        <td class="header-link"><a href="/create"><img src="/assets/images/nav/create.png"><br>Create</a></td>
+        <td class="header-link"><a href="/search"><img src="/assets/images/nav/search.png"><br>Search</a></td>
+        <td class="header-link"><a href="/random"><img src="/assets/images/nav/random.png"><br>Random</a></td>
+        <td class="header-link"><a href="/awards"><img src="/assets/images/nav/awards.png"><br>Awards</a></td>
+        <td class="header-link"><a href="/misc"><img src="/assets/images/nav/misc.png"><br>Misc</a></td>
+    </tr>
+</table>
+
+<div class="ad-top">
+    {% if ADS %}
+    <!--AdSense Script goes here-->
+    {% else %}
+    <img src="/assets/images/ads/default-top.jpg">
+    {% endif %}
+</div>
+
+
+{% block content %}
+<div style="margin:auto;text-align:center;"><img src="/assets/images/404.jpg"><br>
+<h1>File Not Found</h1></div>
+{% endblock %}
+
+
+
+<div class="ad-bottom">
+    {% if ADS %}
+    <!--AdSense Script goes here-->
+    {% else %}
+    <img src="/assets/images/ads/default-bottom.jpg">
+    {% endif %}
+</div>
+
+<div style="text-align:center;font-size:10px;">
+    &bull; tf2tags - created by <a href="TODO">TODO</a> &bull;<br>
+    &bull; <a href="http://steampowered.com/">Powered by Steam</a> &bull;<br>
+    &bull; Server Date/Time: {% now "jS F Y H:i" %} &bull;<br>
+    {% if user.admin %}
+        &bull; <a href="/admin">Site Adminstration</a> &bull;
+    {% endif %}
+</div>
+
+</body>
+</html>

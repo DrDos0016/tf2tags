@@ -1,0 +1,145 @@
+﻿{% extends "main.html" %}
+
+{% block title %} - User Management {% endblock %}
+
+{% block scripts %}
+<style>
+label
+{
+    width:200px;
+    text-align:right;
+    display:inline-block;
+    margin-bottom:10px;
+    vertical-align:top;
+}
+
+input, select
+{
+    width:300px;
+}
+
+textarea
+{
+    width:600px;
+    height:150px;
+}
+
+#submission_table tr:hover
+{
+    background-color:#666;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="block">
+<form method="GET" action="">
+    <label>Item # of user:</label> <input name="item" maxlength="50"><br>
+    <label>&nbsp;</label> <input type="submit" value="Lookup">
+    <hr>
+    <label>Steam ID of user:</label> <input name="steam_id" maxlength="17"><br>
+    <label>&nbsp;</label> <input type="submit" value="Lookup">
+</form>
+<hr>
+{% if lookup %}
+    <table style="width:100%">
+        <tr>
+            <td rowspan="2"><img src="{{target.avatar}}" style="border:2px solid #7AACD8;border-radius:3px;"></td>
+            <td><a href="/profile/{{target.steamID}}">-{{target.name}}-</a></td>
+            <td>First seen: {{target.timestamp}}</td>
+            <td>Submissions: {{target.submitted}}</td>
+            <td>Comments: {{target.posted_comments}}</td>
+        </tr>
+        <tr>
+            <td><a href="{{target.profile}}">{{target.steamID}}</a></td>
+            <td>Last seen: {{target.last_visit}}</td>
+            <td>Max Submissions: {{target.max_submitted}}</td>
+            <td>Max Comments: {{target.max_posted_comments}}</td>
+        </tr>
+    </table>
+    <hr>
+
+    <h2 class="Strange" id="submissions" name="submissions">Submissions</h2>
+    <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="delete_submissions">
+    <table id="submission_table">
+    <tr>
+        <th>ID</th>
+        <th>Set</th>
+        <th>Name</th>
+        <th>Desc</th>
+        <th>IP</th>
+        <th>Del</th>
+    </tr>
+    {% for i in items %}
+    <tr>
+        <td><a href="/view-{{i.id}}" target="_blank">{{i.id}}</a></td>
+        <td style="width:20px">{% if i.set == "0" %}&nbsp;{%else%}<span class="strange">Y</span>{% endif %}</td>
+        <td style="width:350px">{{i.name}}</td>
+        <td style="width:450px">{{i.desc}}</td>
+        <td style="width:80px">{{i.ip}}</td>
+        <td style="width:20px"><input type="checkbox" name="delete" value="{{i.id}}" style="width:20px"></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="4" style="font-weight:bold;font-size:larger;">
+            <a href="?item={{request.GET.item|default:''}}&steam_id={{request.GET.steam_id|default:''}}&submission_offset={{submission_newer|default:0}}#submissions">Newer</a> |
+            <a href="?item={{request.GET.item|default:''}}&steam_id={{request.GET.steam_id|default:''}}&submission_offset={{submission_older|default:20}}#submissions">Older</a>
+        </td>
+    </tr>
+    </table>
+
+    <input type="submit" value="Remove Selected Items" style="float:right"><br>
+    </form>
+
+    <hr>
+    <h2 class="Strange" id="comments" name="comments">Comments</h2>
+    <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="delete_comments">
+    <table style="width:100%">
+    <tr>
+        <th>Item ID</th>
+        <th>Comment</th>
+        <th>IP</th>
+        <th>Del</th>
+    </tr>
+    {% for c in comments %}
+    <tr>
+        <td><a href="/view-{{c.itemID}}" target="_blank">{{c.itemID}}</a></td>
+        <td>{{c.comment}}</td>
+        <td>{{c.ip}}</td>
+        <td><input type="checkbox" name="delete" value="{{c.id}}"></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="4" style="font-weight:bold;font-size:larger;">
+            <a href="?item={{request.GET.item|default:''}}&steam_id={{request.GET.steam_id|default:''}}&comment_offset={{comment_newer|default:0}}#comments">Newer</a> |
+            <a href="?item={{request.GET.item|default:''}}&steam_id={{request.GET.steam_id|default:''}}&comment_offset={{comment_older|default:20}}#comments">Older</a>
+        </td>
+    </tr>
+    </table>
+
+    <input type="submit" value="Remove Selected Comments" style="float:right"><br>
+    </form>
+
+    <hr>
+    <h2 class="Strange">Ban</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="ban_user">
+        <input name="ip" value="{{items.0.ip}}"> IP Address<br>
+        <input name="steamID" value="{{target.steamID}}"> steamID<br>
+        <input name="notes"> notes<br>
+        <input name="begins" value="{% now 'Y-m-d' %}"> begins<br>
+        <input name="ends" value="{% now 'Y-m-d' %}"> ends<br>
+        <input type="checkbox" name="purge"> Purge user (delete all comments + submissions)<br>
+        <input type="submit" value="Ban User" style="float:right"><br>
+    </form>
+{% endif %}
+</div>
+
+{{user_stuff}}
+{% endblock %}

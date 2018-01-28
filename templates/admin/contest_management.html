@@ -1,0 +1,28 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+ - Contest Management
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <form method="POST">
+    {% csrf_token %}
+    <label>Start</label>
+    <input name="start" value=""><br>
+    <label>End</label>
+    <input name="end" value=""><br>
+    <label>Theme</label>
+    <input name="theme"><br>
+    <br>
+    <label>Winner</label>
+    <input name="winner"><br>
+    <br>
+    
+    <input type="submit" value="Add Contest">
+    </form>
+</div>
+{% endblock %}

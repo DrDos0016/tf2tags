@@ -1,0 +1,13 @@
+﻿<div class="pagenav">
+    <a href="/{{type}}/1{{qs}}">&lt;&lt;</a>
+    {% for page in pageList %}
+        <a{% if page == pageCurrent %} class="currentPageButton"{% endif %} href="/{{type}}/{{page}}{{qs}}">{{page}}</a>
+    {% endfor %}
+    <a href="/{{type}}/{{maxPage}}{{qs}}">&gt;&gt;</a>
+    <a style="cursor:pointer" class="pageSelect">#</a>
+    
+    <div class="pageJump">
+        <input name="page"> <input type="button" name="go" class="tf2button" value="GO" style="width:50px"><br>
+        Max Page: {{maxPage}}
+    </div>
+</div>

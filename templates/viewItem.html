@@ -1,0 +1,206 @@
+﻿{% extends "main.html" %}
+
+
+{% block title %}
+{% with items|last as i %}
+ - Item #{{i.id}}{% if i.user.steamID != "0" %} By: {{items.0.user.name}}{% endif %}
+ {% endwith %}
+{% endblock %}
+
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@tf2tags">
+{% with items|last as i %}
+<meta name="twitter:title" content="tf2tags - Item #{{i.id}}">
+<meta name="twitter:description" content="{{items.0.display_name}} - {{items.0.display_desc}}">
+<meta name="twitter:image" content="http://tf2tags.com/assets/items/{{items.0.image}}.png">
+{% endwith %}
+{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/vote.js?v=20160412"></script>
+<script src="/assets/js/html2canvas.js"></script>
+<script>
+$(document).ready(function () {
+    $('input[name=section]').click(function () {
+        if ($(this).data('show') == "share")
+            render();
+        show($(this).data('show'));
+    });
+});
+
+function show(id)
+{
+    $('#itemDetails').hide();
+    $('#reportItem').hide();
+    $('#comments').hide();
+    $('#share').hide();
+    $('#'+id).show();
+}
+
+function render()
+{
+    $('#share').html("");
+    $(".watermark").css("visibility", "visible");
+    html2canvas(document.getElementById("itemPreview"), {
+        background: "#2A2725",
+        onrendered: function(canvas) {
+            $('#share').append(canvas);
+            $(".watermark").css("visibility", "hidden");
+        }
+    });
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+
+    <div class="spacer"></div>
+    
+    <div id="itemPreview" style="min-height:196px;background:#2A2725;margin:auto;border-radius:6px;max-width:70%;">
+        <div id="itemMessage" style="text-align:center" class="tf2">{{identifier}} - BY: {% if items.0.user.steamID == "0" %}{{items.0.fakeAuthor}}{% else %}<a href="profile/{{items.0.user.steamID}}">{{items.0.user.name}}</a>{% endif %}</div>
+        {% for i in items %}
+            {% if i.slot != "set" %}
+                <div class="item-entry">
+                    <div class="item-container">
+                        <div class="item-image">
+                            <img src="/assets/items/{{i.image}}.png" alt="{{i.base}}" title="{{i.base}}" {% if i.particles %}style='background:url("/assets/images/particles/{{i.particles}}.png");'{% endif %}>
+                        </div>
+                        <div class="item-text">
+                            <div class="tf2" style="color:#{{i.color}}">{{i.display_name}}</div>
+                            <div class="tf2b">{{i.display_desc}}</div>
+                            <div class="tf2b">{{i.display_particles}}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% with items|last as i %}
+        <div class="watermark tf2">http://tf2tags.com/view-{{i.id}}</div>
+        {% endwith %}
+    </div>
+    <br>
+    <div class="vote_view" style="margin:auto;width:300px;text-align:center;">
+        {% with items|last as i %}
+        {% include 'modules/module.vote.html' %}
+        {% endwith %}
+    </div>
+    
+    <div id="viewOptions">
+        <input type="button" name="section" data-show="itemDetails" class="tf2button" value="Item Details">
+        <div class="spacer" style="height:3px"></div>
+        {% if user.isUser %}
+        <input type="button" name="section" data-show="reportItem" class="tf2button" value="Report This Item">
+        <div class="spacer" style="height:3px"></div>
+        {% endif %}
+        <input type="button" name="section" data-show="comments" class="tf2button" value="Comments">
+        <div class="spacer" style="height:3px"></div>
+        {% if user.isUser %}
+        <input type="button" name="section" data-show="share" class="tf2button" value="Image">
+        <div class="spacer" style="height:3px"></div>
+        {% endif %}
+        {% if user.isUser %}
+        {% with items|last as i %}
+            {% if items.user.steamID != "0" and items.0.user.steamID == user.steamID or user.admin %}
+            <a href="/modify/{{i.id}}"><input type="button" class="invtf2button" value="Modify"></a>
+            <div class="spacer" style="height:3px"></div>
+            {% endif %}
+        {% endwith %}
+        {% endif %}
+    </div>
+    <br>
+    <div class="itemDetails" id="itemDetails" style="display:none">
+        <div class="tf2" style="padding-top:5px;text-align:center;">Item Details</div>
+        <table style="width:100%;">
+            <col style="width:150px">
+            {% for i in items %}
+                {% if i.slot != "set" %}
+                    <tr>
+                        <td class="tf2">Name:</td>
+                        <td class="tf2b">{{i.name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tf2">Description:</td>
+                        <td class="tf2b">{{i.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tf2">Base:</td>
+                        <td class="tf2b">{{i.base}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tf2">Class:</td>
+                        <td class="tf2b"><img src="/assets/images/icons/{{i.role|lower}}.png"> {{i.role}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tf2">Slot:</td>
+                        <td class="tf2b">{{i.slot|title}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tf2">Quality:</td>
+                        <td class="tf2b"><span style="color:#{{i.color}}">{% if i.prefix == "" %}Unique{% else %}{{i.prefix}}{% endif %}</td>
+                    </tr>
+                    {% if i.filter %}
+                    <tr>
+                        <td class="tf2">Filter:</td>
+                        <td class="tf2b"><span style="color:#{{i.color}}">{{i.filter}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.paint %}
+                    <tr>
+                        <td class="tf2">Paint:</td>
+                        <td class="tf2b"><span class="tf2" style="color:#{{i.paint}}">{{i.paint_name}} (#{{i.paint}})</span></td>
+                    </tr>
+                    {% endif %}
+                    {% if i.particles %}
+                    <tr>
+                        <td class="tf2">Particles:</td>
+                        <td class="tf2b">{{i.particles}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.style > 0 %}
+                    <tr>
+                        <td class="tf2">Style:</td>
+                        <td class="tf2b">{{style_name}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr><td colspan="2"><hr></td></tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="tf2">Submitted:</td>
+                <td class="tf2b">{{items.0.timestamp}}</td>
+            </tr>
+            <tr>
+                <td class="tf2">Author:</td>
+                <td class="tf2b">{% if items.user.steamID != "0" %}{{items.0.user.name}} - <a href="/profile/{{items.0.user.steamID}}">Profile</a>{% else %}Anonymous{% endif %}</td>
+            </tr>
+            <tr>
+                <td class="tf2">Keywords:</td>
+                <td class="tf2b">{{items.0.keywords|title}}</td>
+            </tr>
+            <tr>
+                <td class="tf2">Scoring:</td>
+                <td class="tf2b">
+                    <span style="color:#0f0">{{upVotes}} Crits</span>, <span style="color:#f00">{{downVotes}} Misses</span>, 
+                    {% with items|last as i %}<a href="/votes/item/{{i.id}}">Vote Log</a>{% endwith %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    {% if user.isUser %}
+    <div id="reportItem" style="display:none;text-align:center;" class="itemDetails">
+        {% include 'modules/module.report.html' %}
+    </div>
+    {% endif %}
+    
+    <div id="comments">
+        {% include 'modules/module.comments.html' %}
+    </div>
+    
+    <div id="share" style="display:none;text-align:center;">
+        Hello.
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+﻿{% extends "main.html" %}
+
+{% block scripts %}
+<script src="/assets/js/vote.js?v=20160412" type="text/javascript"></script>
+<script src="/assets/js/page.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var type = "/{{type}}/";
+    var qs = "{{qs|safe}}";
+    var page = 0;
+</script>
+
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block" style="background-color:#2A2725">
+{% include 'modules/module.pages.html' %}
+
+{% for i in items %}
+    {% ifchanged %}<div class="tf2 date">Added {{i.timestamp|date:"M d"}}</div>{% endifchanged %}
+    
+    <div class="item-entry">
+        <div class="item-container">
+            <div class="item-image">
+                <img src="/assets/items/{{i.image}}.png">
+            </div>
+            <div class="item-text">
+                <div class="tf2" style="color:#{{i.color}}">{{i.display_name}}</div>
+                <div class="tf2b">{{i.display_desc}}</div>
+                <div class="tf2b">{{i.display_particles}}</div>
+            </div>
+        </div>
+        
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    
+    {% comment %}
+    <div style="margin:auto;text-align:center;">
+        {% include 'modules/module.item.html' %}
+        
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="spacer" style="height:8px">&nbsp;</div>
+    {% endcomment %}
+{% endfor %}
+
+{% include 'modules/module.pages.html' %}
+</div>
+{% endblock %}

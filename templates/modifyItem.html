@@ -1,0 +1,93 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+ - Modifying Item #{{items.0.id}}{% if i.user.steamID != "0" %} By: {{items.0.user.name}}{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<style>
+.mod
+{
+    width:600px;
+    margin:auto;
+    height:180px;
+    padding-top:15px;
+}
+
+.image
+{
+    display:inline-block;
+}
+
+.text
+{
+    display:inline-block;
+    vertical-align:top;
+    margin-left:30px;
+}
+
+textarea
+{
+    border:1px dotted #766B5E;
+    background-color:#3C352E;
+    width:350px;
+    font-size:18px;
+}
+</style>
+
+<script>
+$(document).ready(function (){
+    $('#delete1').click(function (){
+        $('#deleteButton').show();
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+
+    <p class="tf2b">Modifying an item's name or description after it is one day old will result in its score being reset. Keywords may be edited safely at any time. In the event this is a contest submission and points would be reset, <a href="mailto:doctordos@gmail.com">contact me</a> and I will edit the item for you. You may also delete the item entirely if you wish.</p>
+    <form method="POST">
+    <input type="hidden" name="set_id" value="{{items.0.set}}">
+    <input type="hidden" name="id" value="{{items.0.id}}">
+    {% csrf_token %}
+    {% if reset %}
+        <div class="tf2" style="color:#F00;text-align:center;">Modifying this item's name and/or description will cause its score to be reset!</div>
+    {% else %}
+        <div class="tf2" style="color:#0F0;text-align:center;">Modifying this item's name and/or description will not reset its score!</div>
+    {% endif %}
+    {% for item in items %}
+    <input type="hidden" name="item_id" value="{{item.id}}">
+    <div class="mod">
+        <div class="image" {% if item.particles != "" %}style="background-image:url('/assets/images/particles/{{item.particles}}.png');background-repeat:no-repeat;"{% endif %}>
+            <img src="/assets/items/{{item.image}}.png">
+        </div>
+        <div class="text">
+            <textarea name="name" maxlength="40" class="tf2" style="color:#{{item.color}}">{{item.name}}</textarea><br>
+            <textarea name="desc" maxlength="80" class="tf2b" style="color:#FFF">{{item.desc}}</textarea><br>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div class="mod">
+        <div class="image">
+            
+        </div>
+        <div class="text">
+            <div class="tf2">Edit Keywords</div>
+            <textarea name="keywords" style="margin:auto" class="tf2b unique">{{items.0.keywords}}</textarea>
+            <div class="spacer"></div>
+            <input id="delete1" type="button" name="action" class="tf2button" value="Delete Item"> 
+            <input type="submit" name="action" class="tf2button" value="Save Changes"><br>
+            <div class="spacer"></div>
+            <input id="deleteButton" type="submit" name="action" class="tf2button" value="Confirm Deletion" style="display:none">
+        </div>
+    </div>
+    
+    
+    </form>
+    
+    
+</div>
+{% endblock %}

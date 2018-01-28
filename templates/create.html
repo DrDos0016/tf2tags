@@ -1,0 +1,243 @@
+{% extends "main.html" %}
+
+{% block title %} - Create Item{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/tf2.js?v=20160805"></script>
+<script src="/assets/js/create.js?v=20160312"></script>
+{% endblock %}
+
+{% block content %}
+{% if user.steamID == "0" %}
+    <div class="warning" style="width:50%;margin:auto;">
+        <div style="display:inline-block">
+            <img src="/assets/images/create/minisentry.png">
+        </div>
+        <div style="display:inline-block;width:80%;">
+            <h1>WARNING!</h1>
+            You're not signed into a steam account! You may still submit your creation, but it will not be tied to any account or eligible for any contests.<br>
+        </div>
+    </div>
+{% endif %}
+<div class="block">
+    <div id="instructions"><span class="tf2" id="stepnum">Step One:</span> <span id="stepdir">Choose a class whose item you wish to name.</span></div>
+
+    <div id="step1">
+        {% for classname in tf.classes %}
+                <img src="/assets/images/create/{{classname|lower}}.png" id="class{{forloop.counter}}" classname="{{classname}}" class="class-token">
+        {% endfor %}
+    </div>
+
+    <div id="step2">
+        {% for slot in tf.slots %}
+            <img src="/assets/images/create/{{slot}}.png" id="slot{{forloop.counter}}" slotname="{{slot}}" class="slot-token {% if forloop.counter >= 8%} april{%endif%}">
+        {% endfor %}
+    </div>
+    <div id="step3">
+    </div>
+
+    <div id="step4">
+        <div class="image">
+            <img id="img1" src="/assets/items/blank.png"><br>
+            <input id="nameItem" class="tf2button" type="button" value="Name it!">
+        </div>
+        <div class="text">
+            <div id="nameError"></div>
+            <textarea id="name" maxlength="40"></textarea><br>
+            <textarea id="desc" maxlength="80"></textarea>
+        </div>
+    </div>
+
+    <div id="step5">
+        <div style="text-align:center"><img id="editName" src="/assets/images/create/tags.png"></div>
+
+		<div class="itemPreview" style="text-align:center" class="tf2">
+			<span class="tf2">PREVIEW</span>
+			<div class="itemFrame" id="wip">
+				<div class="itemLeft">
+					<img name="finalImage" src="/assets/items/blank.png" style="margin-left:10px;height:128px;width:128px;">
+				</div>
+				<div class="itemRight">
+					<span name="finalColor"><span name="finalPrefix" class="tf2"></span><span name="finalFilter" class="tf2"></span> <span name="finalName" class="tf2">name</span></span>
+					<br>
+					<span name="finalDesc" class="tf2b">desc</span>
+					<br>
+					<span name="finalParticles" class="tf2b"></span>
+					<br>
+				</div>
+			</div>
+			<br>
+		</div>
+
+		<div id="advButtons">
+			<input class="tf2button" type="button" name="advoption" value="quality">
+			<input class="tf2button" type="button" name="advoption" value="particle">
+			<input class="tf2button" type="button" name="advoption" value="paint">
+			<input class="tf2button" type="button" name="advoption" value="style">
+			<br><br>
+			<input class="tf2button" type="button" value="Create set (add more items)" id="addAnother" style="width:527px">
+			<br><br>
+			<input class="tf2button" type="button" value="Confirm" id="confirm" style="width:527px">
+		</div>
+
+        <div id="advOption" style="display:block">
+            <div id="rarity" style="display:none">
+
+                <div class="column">
+                    <div class="column" id="def_rarities"></div><br>
+                    <span class="tf2b jsLink" id="filters" style="display:none;color:#FFF;">
+                        <img src="/assets/images/create/filter.png"><br>
+                        Filter
+                    </span>
+
+                </div>
+
+                <div class="column" id="strange_rarities"></div>
+                <div id="filterList" class="column Strange" style="display:none">
+                    <div class="column">
+                        <div class="Normal" name="filter">None</div>
+                        <div name="filter">Canadian</div>
+                        <div name="filter">Chaotic</div>
+                        <div name="filter">Covert</div>
+                        <div name="filter">Dazzling</div>
+                        <div name="filter">Efficient</div>
+                        <div name="filter">Egyptian</div>
+                        <div name="filter">Fresh</div>
+                        <div name="filter">Frosty</div>
+                        <div name="filter">Hydraulic</div>
+                    </div>
+
+                    <div class="column">
+                        <div name="filter">Locomotive</div>
+                        <div name="filter">Mennko</div>
+                        <div name="filter">Outlaw</div>
+                        <div name="filter">Psychadelic</div>
+                        <div name="filter">Rigid</div>
+                        <div name="filter">Rugged</div>
+                        <div name="filter">Sophisticated</div>
+                        <div name="filter">Spooky</div>
+                        <div name="filter">Sun-Kissed</div>
+                        <div name="filter">Technical</div>
+                    </div>
+
+                    <div class="column">
+                        <div name="filter">Venomous</div>
+                        <div name="filter">Vigilant</div>
+                        <div name="filter">Wild</div>
+                    </div>
+                    {% if tf.is_april %}
+                    <hr>
+                    <div class="column">
+                        {% for filter in tf.april_filters %}
+                        <div name="filter">{{filter}}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div id="particles">
+                <span class="tf2">Loading...</span>
+            </div>
+
+
+            <div style="display: block;" id="paint">
+                <div name="paint" style="background-color:#776B5F;border:4px solid #776B5F;" paint="" color="blank">X</div>
+                <div name="paint" style="background-color:#141414;border:4px solid #141414" paint="A Distinctive Lack of Hue" color="141414">&nbsp;</div>
+                <div name="paint" style="background-color:#7E7E7E;border:4px solid #7E7E7E" paint="Aged Moustache Grey" color="7E7E7E">&nbsp;</div>
+                <div name="paint" style="background-color:#E6E6E6;border:4px solid #E6E6E6" paint="An Extraordinary Abundance of Tinge" color="E6E6E6">&nbsp;</div>
+                <div name="paint" style="background-color:#483838;border:4px solid #483838" paint="Operator's Overalls (RED)" color="483838">&nbsp;</div>
+                <div name="paint" style="background-color:#803020;border:4px solid #803020" paint="The Value of Teamwork (RED)" color="803020">&nbsp;</div>
+                <div name="paint" style="background-color:#654740;border:4px solid #654740" paint="An Air of Debonair (RED)" color="654740">&nbsp;</div>
+                <div name="paint" style="background-color:#E9967A;border:4px solid #E9967A" paint="Dark Salmon Injustice" color="E9967A">&nbsp;</div>
+                <div name="paint" style="background-color:#694D3A;border:4px solid #694D3A" paint="Radigan Conagher Brown" color="694D3A">&nbsp;</div>
+                <div name="paint" style="background-color:#CF7336;border:4px solid #CF7336" paint="Mann Co. Orange" color="CF7336">&nbsp;</div>
+                <div name="paint" style="background-color:#C36C2D;border:4px solid #C36C2D" paint="Cream Spirit (RED)" color="C36C2D">&nbsp;</div>
+                <div name="paint" style="background-color:#A89A8C;border:4px solid #A89A8C" paint="Waterlogged Lab Coat (RED)" color="A89A8C">&nbsp;</div>
+                <div name="paint" style="background-color:#A57545;border:4px solid #A57545" paint="Muskelmannbraun" color="A57545">&nbsp;</div>
+                <div name="paint" style="background-color:#C5AF91;border:4px solid #C5AF91" paint="Peculiarly Drab Tincture" color="C5AF91">&nbsp;</div>
+                <div name="paint" style="background-color:#7C6C57;border:4px solid #7C6C57" paint="Ye Olde Rustic Colour" color="7C6C57">&nbsp;</div>
+                <div name="paint" style="background-color:#B88035;border:4px solid #B88035" paint="Cream Spirit (BLU)" color="B88035">&nbsp;</div>
+                <div name="paint" style="background-color:#E7B53B;border:4px solid #E7B53B" paint="Australium Gold" color="E7B53B">&nbsp;</div>
+                <div name="paint" style="background-color:#F0E68C;border:4px solid #F0E68C" paint="The Color of a Gentlemann's Business Pants" color="F0E68C">&nbsp;</div>
+                <div name="paint" style="background-color:#2D2D24;border:4px solid #2D2D24" paint="After Eight" color="2D2D24">&nbsp;</div>
+                <br>
+                <div name="paint" style="background-color:#808000;border:4px solid #808000" paint="Drably Olive" color="808000">&nbsp;</div>
+                <div name="paint" style="background-color:#729E42;border:4px solid #729E42" paint="Indubitably Green" color="729E42">&nbsp;</div>
+                <div name="paint" style="background-color:#424F3B;border:4px solid #424F3B" paint="Zepheniah's Greed" color="424F3B">&nbsp;</div>
+                <div name="paint" style="background-color:#BCDDB3;border:4px solid #BCDDB3" paint="A Mann's Mint" color="BCDDB3">&nbsp;</div>
+                <div name="paint" style="background-color:#32CD32;border:4px solid #32CD32" paint="The Bitter Taste of Defeat and Lime" color="32CD32">&nbsp;</div>
+                <div name="paint" style="background-color:#2F4F4F;border:4px solid #2F4F4F" paint="A Color Similar to Slate" color="2F4F4F">&nbsp;</div>
+                <div name="paint" style="background-color:#839FA3;border:4px solid #839FA3" paint="Waterlogged Lab Coat (BLU)" color="839FA3">&nbsp;</div>
+                <div name="paint" style="background-color:#256D8D;border:4px solid #256D8D" paint="The Value of Teamwork (BLU)" color="256D8D">&nbsp;</div>
+                <div name="paint" style="background-color:#384248;border:4px solid #384248" paint="Operator's Overalls (BLU)" color="384248">&nbsp;</div>
+                <div name="paint" style="background-color:#5885A2;border:4px solid #5885A2" paint="Team Spirit (BLU)" color="5885A2">&nbsp;</div>
+                <div name="paint" style="background-color:#28394D;border:4px solid #28394D" paint="An Air of Debonair (BLU)" color="28394D">&nbsp;</div>
+                <div name="paint" style="background-color:#18233D;border:4px solid #18233D" paint="Balaclavas are Forever (BLU)" color="18233D">&nbsp;</div>
+                <div name="paint" style="background-color:#D8BED8;border:4px solid #D8BED8" paint="Color No. 216-190-216" color="D8BED8">&nbsp;</div>
+                <div name="paint" style="background-color:#7D4071;border:4px solid #7D4071" paint="A Deep Commitment to Purple" color="7D4071">&nbsp;</div>
+                <div name="paint" style="background-color:#51384A;border:4px solid #51384A" paint="Noble Hatter's Violet" color="51384A">&nbsp;</div>
+                <div name="paint" style="background-color:#FF69B4;border:4px solid #FF69B4" paint="Pink as Hell" color="FF69B4">&nbsp;</div>
+                <div name="paint" style="background-color:#3B1F23;border:4px solid #3B1F23" paint="Balaclavas are Forever (RED)" color="3B1F23">&nbsp;</div>
+                <div name="paint" style="background-color:#B8383B;border:4px solid #B8383B" paint="Team Spirit (RED)" color="B8383B">&nbsp;</div>
+                <br>
+                <div id="paintDetail"><img id="paintCan" src="/assets/images/paints/2D2D24.png"><div class="tf2" id="paintName">After Eight</div></div>
+            </div>
+
+            <div id="style"></div>
+        </div>
+    </div>
+
+	<div id="step6">
+        <div id="setSettings">
+        Choose an icon to represent your set. (This is what users will see when browsing the site.)<br>
+
+        {% for classname in tf.classes %}
+                <img src="/assets/images/create/{{classname|lower}}sm.png" class="setIconButton" name="setIconButton" data-icon="-{{forloop.counter}}">
+        {% endfor %}
+        <br>
+        {% for slot in tf.slots %}
+            {% if forloop.counter == 8 %}<br>{% endif%}<img src="/assets/images/create/{{slot}}.png" class="setIconButton" name="setIconButton" data-icon="-{{forloop.counter|add:'10'}}">
+        {% endfor %}
+        <br>
+        <img src="/assets/items/-10.png" id="setImage"><br>
+        Give a name so others may have an easier time refering to your set.<br>
+        <input name="setName" maxlength=40 style="width:350px;height:22px;background:none;border:1px dotted #766B5E;font-size:18px;color:#FFD700;font-family:tf2 build;overflow:auto;position:relative;top-64px;">
+        <input name="setIcon" type="hidden" value="-10">
+        <br><br>
+        </div>
+        <div style="text-align:center">Keywords for your submission:</div>
+        <textarea name="finalKeywords"></textarea>
+		<br><br>
+		<form id="form" method="POST" content-type="multipart/form-data" action="/submit_item">
+            {% csrf_token %}
+            <input class="tf2button" type="submit" value="Submit my creation" style="width:527px"><br>
+            {% if not debug %}
+            <input id="submission" name="submission" value="" type="hidden">
+            {% else %}
+            <input id="submission" name="submission" value="" type="text">
+            {% endif %}
+        </form>
+	</div>
+
+    <br>
+
+    <div class="warning" style="display:none" id="error">
+        <div style="display:inline-block;vertical-align:top;">
+            <img src="/assets/images/create/minisentry.png">
+        </div>
+        <div style="display:inline-block;width:80%;">
+            <h1>An Item Error Has Occurred!</h1>
+            Pre-submission verification failed on that item just now. It has not been added to your submission.<br>
+            You should <a href="mailto:TODO">tell me about this</a> (and share the error data).<br>
+            You may want to try tweaking the rejected item based on the error you see below:<br>
+
+            <textarea id="error_txt" readonly="readonly"></textarea>
+        </div>
+    </div>
+
+    <div id="setOverview">
+    </div>
+</div>
+{% endblock %}

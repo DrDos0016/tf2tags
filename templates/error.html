@@ -1,0 +1,32 @@
+﻿{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+    <h1>Something Went Wrong!</h1>
+
+    {% if error == "banned" %}
+    You've been banned!<br>
+    You got banned on: {{ban.begins}}<br>
+    You'll be unbanned on: {{ban.ends}}<br>
+    Here are the notes on why you were banned: {{ban.notes}}<br>
+    <br>
+    If it was a dumb mistake and you wish to be unbanned, <a href="mailto:TODO">E-mail me</a>. You may want to take a look at the <a href="/site_rules">submission guidelines</a> page to make sure it doesn't happen again.
+    {% endif %}
+
+    {% if error == "max_submissions" %}
+    You've submitted too many items in one day. As your submissions receive more points, you will be able to post more items per day. Learn more about <a href="/site_rules#limits">submission limits</a>.
+    {% endif %}
+
+    {% if error == "duplicate" %}
+    Unfortunately, an item with that exact name and description already exists. This does not mean change one word to make the same reference/joke. Somebody just beat you to the punch. Better luck next time.
+    {% endif %}
+
+    {% if error == "login" %}
+    Login failed. This is most likely an issue with Steam and the details of the login failure have been recorded. Try again shortly! If the problem persists and the steam community is up, <a href="TODO">contact me</a>.
+    {% endif %}
+
+    {% if error == "spycheck" %}
+    Spy checking mode has been enabled. Anonymous submissions have temporarily been disabled. You'll have to sign into a steam account to contribute!
+    {% endif %}
+</div>
+{% endblock %}

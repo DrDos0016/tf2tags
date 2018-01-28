@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% block title %} - Miss Bomb{% endblock %}
+
+{% block content %}
+<div class="block">
+<form method="POST" action="">
+{% csrf_token %}
+<label>Steam ID: <input name="steamID"></label>
+<br>
+<input type="submit" value="Delete Votes and Recalculate Scores">
+</form>
+<p>This may take some time. Wait patiently after submitting.</p>
+
+<p>ALL votes, both crits and misses by the user will be deleted. The affected
+items will have their scores recalculated.</p>
+<hr>
+{{output|safe}}
+</div>
+{% endblock %}

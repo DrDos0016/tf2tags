@@ -1,0 +1,15 @@
+﻿{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+    <h1>Item submission failed!</h1>
+
+    Your item failed the verification process! Perhaps this will help you figure out why:<br><br>
+
+    {% for error in errors %}
+        - {{error}}<br>
+    {% endfor %}
+
+    If you believe this message in in error <a href="mailto:TODO">E-mail me</a> a copy of the listed errors and what you were trying to do, and I'll see if it's something that needs to be fixed on my end.
+</div>
+{% endblock %}

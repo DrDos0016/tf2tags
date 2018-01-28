@@ -1,0 +1,18 @@
+﻿<div class="itemFrame">
+        <div style="margin-top:10px;margin-left:10px;">
+        <div style="width:128px;display:table-cell;min-height:128px;margin-left:10px;{% if i.particles != "" %}background-image:url('/assets/images/particles/{{ i.particles }}.png');background-repeat:no-repeat;{% endif %}">
+            <img src="/assets/items/{{i.image}}.png" alt="{{i.base}}" title="{{i.base}}">
+        </div>
+    
+        <div style="width:471px;display:table-cell;text-align:center;vertical-align:middle;overflow:auto;">
+            <a href="/view-{{i.id}}">
+            {% if i.prefix != "" and i.name == i.base %}<span class="tf2" style="color:#{{i.color}}">{{i.prefix}} {{i.filter}} </span>{% endif %}<span class="tf2" style="color:#{{i.color}}">{% if i.name == i.base %}{% if i.base|slice:":4" == "The " and i.prefix != "" and i.prefix != "Unique" %}{{i.base|slice:"4:"}}{% else %}{{i.base}}{% endif %}{% else %}"{{i.name}}"{% endif %}</span>
+            </a>
+            <br>
+            <span class="tf2b">{% if i.desc != "" %}"{{i.desc}}"{% endif %}</span>
+            <br>
+            {% if i.particles != "" %}<span class="tf2b">Effect: {{i.particles}}</span>{% endif %}
+            <br>
+        </div>
+        </div>
+</div>

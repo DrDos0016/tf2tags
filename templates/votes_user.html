@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+
+{% block title %} - Voting Log for Voter {{voter_key}}{% endblock %}
+
+{% block content %}
+<div class="block">
+    {{voter_key}}.
+    <table class="dataTable">
+    <tr>
+       <th>Item #</th>
+       <th>Item Author</th>
+       <th>Vote</th>
+       <th>Voter</th>
+       <th>Timestamp</th>
+    </tr>
+    {% for v in votes %}
+    <tr>
+        <td class="tf2"><a href="/view-{{v.itemID}}">{{v.itemID}}</a></td>
+        <td>{{v.author}}</td>
+        {% if v.vote == 1 %}<td><span class="crit">Crit</span></td>
+        {% elif v.vote == -1 %}<td><span class="miss">Miss</span></td>
+        {% else %}<td>???</td>{% endif %}
+        <td><a href="/profile/{{v.user.steamID}}">- {{v.user.name}}</a></td>
+        <td>{{v.timestamp}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="5">
+        <a class="tf2" href="?offset={{prev}}" style="float:left">Newer</a> <a class="tf2" href="?offset={{next}}" style="float:right">Older</a>
+        </td>
+    </tr>
+    </table>
+    
+    <a class="tf2" href="/view-{{item}}">Return to Item</a><br>
+    <a class="tf2" href="/votes/item/{{item}}">Return to Voting Log #</a>
+</div>
+{% endblock %}

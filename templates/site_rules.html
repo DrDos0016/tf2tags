@@ -1,0 +1,61 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+
+<h1 style="text-align:center">Site Rules</h1>
+
+<h2 style="text-align:center">Item Submission Rules</h2>
+<p>Do not post any items that are any of these:</p>
+<ul>
+    <li>Racist</li>
+    <li>Sexist</li>
+    <li>Homophobic</li>
+    <li>Transphobic</li>
+    <li>Rape jokes</li>
+    <li>Use slurs in general</li>
+    <li>Items which insult other users</li>
+    <li>Huntsmans named <a href="/results?class=sniper&slot=primary&base=the+huntsman&name=lucksman&order=timestamp">The Lucksman</a></li>
+    <li>Shotguns named <a href="/results?class=soldier&slot=secondary&base=shotgun&name=cobain&order=timestamp">Kurt Cobain's Microphone</a></li>
+    <li>"Downvote this item!" or other items that tell people how to vote.</li>
+</ul>
+
+<p>Those top ones will get you banned. Those bottom ones will likely just be deleted. If you want to make awful items, go buy a name tag.</p>
+
+<p>A basic <a href="https://pastebin.com/VatU974P" target="_blank">word filter</a> is implemented which will result in an automatic 24 hour ban for some of the more obvious instances of breaking these rules.
+Deliberately avoiding this filter with things like leetspeak or unicode characters will result in a much longer ban. If you want to make items that use these words, go buy a name tag. Appealing one of these bans
+is also the most pointless thing you can do as by the time an admin sees them, the ban will mostly done with regardless. Words will not be removed from this list. Do not ask.</p>
+<hr>
+
+<h2 style="text-align:center">Community Guidlelines</h2>
+<p>This isn't comprehensive.</p>
+
+<ul>
+    <li>Do not harass other site users, via submissions, comments, false reports, mass downvoting (Missbombing). These will result in a ban</li>
+    <li>If you have any doubt that you're the first to come up with a tag, run a search and check!</li>
+</ul>
+
+<hr>
+<h2 style="text-align:center">Submission Limits</h2>
+<p>Since this site's creation, there have been a handful of users who have submitted something like 30 items in a row. They've generally been mediocre at best. Nobody wants to sift through one person's content, so submission limits have been implemented.</p>
+
+<p>You can submit a number of items per day based on how popular your previous items have been. Sets count as one item, so you never have to worry about a set being too big for you to be able to post it.</p>
+
+<p>Comments are also limited to prevent spamming. The comment limit is handled just like the submission limit, albeit with different values.</p>
+
+<table style="text-align:center;margin:auto;">
+    <tr class="unique"><th>Points</th><th>Submission Limit</th><th>Comment Limit</th><tr>
+    <tr><td>0-99</td><td>5</td><td>10</td></tr>
+    <tr><td>100-499</td><td>10</td><td>20</td></tr>
+    <tr><td>500+</td><td>25</td><td>50</td></tr>
+</table>
+<hr>
+
+<h2 style="text-align:center">Site Staff</h2>
+<ul>
+    <li><a href="TODO">TODO</a> - Contact for technical issues with the site</li>
+    <li><a href="TODO">TODO</a> - Contact for rules violations</li>
+</ul>
+
+</div>
+{% endblock %}

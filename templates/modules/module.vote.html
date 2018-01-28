@@ -1,0 +1,22 @@
+﻿{% if user.adminX %}
+<span class="tf2" name="rate-text" id="vote{{i.id}}">{{i.user.SteamID}} / {{i.ip}}</span><br>
+{% else %}
+<span class="tf2" name="rate-text" id="vote{{i.id}}">RATE THIS ITEM</span><br>
+{% endif %}
+By: {% if i.user.steamID != "0" %}<a href="/profile/{{i.user.steamID}}">{{i.user.name}}</a>{% else %}{{i.fakeAuthor}}{% endif %}
+<div class="vote_area">
+    <div name="score" class="tf2 score" style="color:#{% if i.score >= 0 %}00FF00{% else %}FF0000{% endif %}">
+        {{i.score}}<br>
+        <div class="tf2b vote_sub">Pts.</div>
+    </div>
+    {% if i.set == "0" or viewing %}
+    <div style="display:inline-block">
+        <img name="critButton" src="/assets/images/CritButton.png" data-item="{{i.id}}" alt="Crit">
+        <img name="missButton" src="/assets/images/MissButton.png" data-item="{{i.id}}" alt="Miss">
+    </div>
+    <div name="ktd" class="tf2 score ktd" style="color:#{{i.ktdColor}}">
+        {{i.ktd}}<br>
+        <div class="tf2b vote_sub">k:d</div>
+    </div>
+    {% endif %}
+</div>

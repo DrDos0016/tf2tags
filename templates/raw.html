@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+    <table id="raw-data-table">
+    <tr>
+        <th>Defindex</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Slot</th>
+        <th>Paint</th>
+        <th class="Normal" title="Normal">N</th>
+        <th class="Unique" title="Unique">U</th>
+        <th class="Vintage" title="Vintage">V</th>
+        <th class="Genuine" title="Genuine">G</th>
+        <th class="Strange" title="Strange">S</th>
+        <th class="Unusual" title="Unusual">U</th>
+        <th class="Haunted" title="Haunted">H</th>
+        <th class="Collector" title="Collector's">C</th>
+        <th class="Community" title="Community">C</th>
+        <th class="Self-Made" title="Self-Made">S</th>
+        <th class="Valve" title="Valve">V</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{item.defindex}}</td>
+        <td><a href="/assets/items/{{item.defindex}}.png" target="_blank">View</td>
+        <td>{{item.item_name}}</td>
+        <td>{{item.used_by_classes}}</td>
+        <td>{{item.item_slot|title}}</td>
+        <td>{{item.paintable|yesno:"✓, "}}</td>
+        <td class="Normal" title="Normal">{{item.rarity.normal|yesno:"✓, "}}</td>
+        <td class="Unique" title="Unique">{{item.rarity.unique|yesno:"✓, "}}</td>
+        <td class="Vintage" title="Vintage">{{item.rarity.vintage|yesno:"✓, "}}</td>
+        <td class="Genuine" title="Genuine">{{item.rarity.genuine|yesno:"✓, "}}</td>
+        <td class="Strange" title="Strange">{{item.rarity.strange|yesno:"✓, "}}</td>
+        <td class="Unusual" title="Unusual">{{item.rarity.unusual|yesno:"✓, "}}</td>
+        <td class="Haunted" title="Haunted">{{item.rarity.haunted|yesno:"✓, "}}</td>
+        <td class="Collector" title="Collector's">{{item.rarity.collectors|yesno:"✓, "}}</td>
+        <td class="Community" title="Community">{{item.rarity.community|yesno:"✓, "}}</td>
+        <td class="Self-Made" title="Self-Made">{{item.rarity.self_made|yesno:"✓, "}}</td>
+        <td class="Valve" title="Valve">{{item.rarity.valve|yesno:"✓, "}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

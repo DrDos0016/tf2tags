@@ -1,0 +1,31 @@
+﻿{% extends "main.html" %}
+
+{% block scripts %}
+<style>
+#newslist
+{
+   margin:auto;
+}
+
+#newslist th, #newslist td
+{
+    padding:5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <h1 style="text-align:center">News Archive</h1>
+    <table id="newslist">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Posted</th>
+    </tr>
+    {% for n in news %}
+        <tr><td><a href="/news_archive/{{n.id}}">{{n.title}}</a></td><td><a href="http://steamcommunity.com/{{n.profile}}">{{n.author}}</a></td><td>{{n.timestamp}}</td></tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+﻿{% if user.steamID == "0" %}
+    <div class="tf2" style="text-align:center">You must be logged in to leave a comment</div>
+{% else %}
+<script>
+$(document).ready(function () {
+    $('#comment').keyup(function () {
+        remaining = 500 - $(this).val().length
+        $('#charsLeft').html(remaining);
+        if (remaining <= 0)
+        {
+            $('#charsLeft').css('color', '#F00');
+            // $(this).val($(this).val().slice(0,500));
+        }
+        else
+            $('#charsLeft').css('color', '#FFD700');
+    });
+    
+    $('#submitComment').click(function (){
+        document.forms["commentForm"].submit();
+    });
+    
+    $("a[name=del]").click(function (){
+        var del = confirm("Are you sure you wish to hide this comment? (Admins can still read the contents)");
+        if (! del)
+            return false;
+    });
+});
+</script>
+
+<form method="POST" action="/submit_comment" name="commentForm">
+{% csrf_token %}
+{% with items|last as i %}
+<input type="hidden" name="item" value="{{i.id}}">
+{% endwith %}
+<div class="newComment">
+    <div style="display:inline-block;vertical-align:top;"><img src="{{user.avatar}}"></div>
+    <div style="display:inline-block;width:90%;">
+        <a href="/profile/{{user.steamID}}">{{user.name}}</a><div style="float:right">(<span id="charsLeft" class="Strange">500</span>)</div><br>
+        <textarea name="comment" id="comment"></textarea><br>
+        {% if user.posted_comments < user.max_posted_comments %}<div style="float:right"><a class="jsLink" id="submitComment">Post Comment ({{user.posted_comments}}/{{user.max_posted_comments}} posted today)</a></div>{% else %}
+        <div style="float:right">You've reached your daily comment limit.</div>{% endif %}
+    </div>
+</div>
+</form>
+{% endif %}
+{% for comment in comments %}
+    
+    <div class="comment">
+        <div style="display:inline-block;vertical-align:top;"><img src="{{comment.user.avatar}}"></div>
+        <div style="display:inline-block;width:90%;">
+            <a href="/profile/{{comment.user.steamID}}">{{comment.user.name}}</a> {% comment %}<a name="del" href="/delete?cid={{comment.id}}" class="jsLink" style="float:right" data-comment="{{comment.id}}">{% if items.user.steamID != "0" and items.0.user.steamID == user.steamID or user.admin %}Hide Comment{% endif %}</a>{% endcomment %}<br>
+            {% if not comment.hidden %}{{comment.comment|linebreaksbr}}{% else %}<i>This comment has been hidden.</i>{% endif %}
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+
+{% block title %} - Voting Log for Item #{{votes.0.itemID}}{% endblock %}
+
+{% block content %}
+<div class="block">
+    <table class="dataTable">
+    <tr>
+       <th>Voter</th>
+       <th>Vote</th>
+       <th>Timestamp</th>
+    </tr>
+    {% for v in votes %}
+    <tr>
+        <td class="tf2"><a href="/votes/user/{{v.id}}">- {{v.user.name}}</a></td>
+        {% if v.vote == 1 %}<td><span class="crit">Crit</span></td>
+        {% elif v.vote == -1 %}<td><span class="miss">Miss</span></td>
+        {% else %}<td>???</td>{% endif %}
+        <td>{{v.timestamp}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3">
+        <a class="tf2" href="?offset={{prev}}" style="float:left">Newer</a> <a class="tf2" href="?offset={{next}}" style="float:right">Older</a>
+        </td>
+    </tr>
+    </table>
+    
+    <a class="tf2" href="/view-{{votes.0.itemID}}">Return to Item</a>
+</div>
+{% endblock %}

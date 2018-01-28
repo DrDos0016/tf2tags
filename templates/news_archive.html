@@ -1,0 +1,9 @@
+﻿{% extends "main.html" %}
+
+{% block content %}
+<div class="block">
+    {% for news in newsposts %}
+    <a href="/news_archive/{{id}}">{{title}}</a> by <a href="mailto:{{email}}">{{author}}</a> - {{timestamp}}
+    {% endfor %}
+</div>
+{% endblock %}

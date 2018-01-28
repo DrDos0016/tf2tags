@@ -1,0 +1,43 @@
+﻿{% extends "main.html" %}
+
+{% block title %}
+     - Top Items
+{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/vote.js"></script>
+<script src="/assets/js/page.js"></script>
+<script>
+    var type = "/{{type}}/";
+    var qs = "{{qs|safe}}";
+    var page = 0;
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="block" style="background-color:#2A2725">
+{% include 'modules/module.pages.html' %}
+<br>
+{% for i in items %}
+    <div style="margin:auto;text-align:center;">
+        {% include 'modules/module.item.html' %}
+        
+        <div class="vote_frame">
+                {% include 'modules/module.vote.html' %}
+                <div name="view_area">
+                    <a href="/view-{{i.id}}" style="font-size:12pt">View</a>
+                    <div style="position:relative;top:-4px">
+                    {% if i.comments > 0 %}
+                        {{i.comments}} comment{% if i.comments > 1 %}s{% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="spacer" style="height:8px">&nbsp;</div>
+{% endfor %}
+
+{% include 'modules/module.pages.html' %}
+
+</div>
+{% endblock %}
